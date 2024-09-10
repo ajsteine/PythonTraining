@@ -3,6 +3,7 @@ import sys
 import pygame
 
 from settings import Settings
+from ship import Ship
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -14,7 +15,9 @@ class AlienInvasion:
         self.settings = Settings()
 
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
-        pygame.dsiplay.set_caption("Alien Invasion")
+        pygame.display.set_caption("Alien Invasion")
+
+        self.ship = Ship(self)
     
     def run_game(self):
         """Start the main loop for the game."""
@@ -23,6 +26,14 @@ class AlienInvasion:
                 for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                               sys.exit()
+                
+                # Redraw the sacreen during each pass through the loop.
+                self.screen.fill(self.bg.color)
+                self.ship.blitme()
+
+                # Make the most recent drawn screen visbile
+                pygame.display.flip()
+                self.clock.tick(60)
         
 if __name__ == '__main__':
         # Make a game instance and run the game.
